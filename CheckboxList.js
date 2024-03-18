@@ -1,5 +1,5 @@
 export class CheckBoxList {
-    constructor(root_div, label_text, update_callback) {
+    constructor(root_div, label_text, update_callback, default_checked=false) {
         this.root_div = root_div;
         this.root_div.setAttribute('class', 'checkbox-list');
         this.root_div.setAttribute('tabindex', '100');
@@ -20,6 +20,7 @@ export class CheckBoxList {
 
         this.checkboxes = {};
         this.update_callback = update_callback;
+        this.default_checked = default_checked;
 
     }
     toggle_visible() {
@@ -39,6 +40,9 @@ export class CheckBoxList {
         }
         return selected_items;
     }
+    item_selected(name) {
+        return (name in this.checkboxes && this.checkboxes[name].checked);
+    }
     handleEvent(evt) {
         if (evt.type == "click") {
             if (evt.target == this.anchor) {
@@ -52,11 +56,21 @@ export class CheckBoxList {
             }
         }
     }
+    has_item(name) {
+        return (name in this.checkboxes);
+    }
     add_item(name) {
+        if (name in this.checkboxes) {
+            return;
+        }
         let list_item = document.createElement('li');
         let checkbox = document.createElement('input');
         checkbox.setAttribute('type', 'checkbox');
         checkbox.onchange = this.update_callback;
+
+        if (this.default_checked) {
+            checkbox.checked = true;
+        }
         let label = document.createElement('span');
         label.setAttribute('style', 'margin-left:4px');
         label.innerHTML = name;
