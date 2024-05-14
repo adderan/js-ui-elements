@@ -23,6 +23,13 @@ export class CheckBoxList {
         this.default_checked = default_checked;
 
     }
+
+    dispatchEvent(event) {
+        for (let [item_name, checkbox] of Object.entries(this.checkboxes)) {
+            checkbox.dispatchEvent(event);
+        }
+    }
+
     toggle_visible() {
         if (this.visible) {
             this.root_div.classList.remove('visible');
