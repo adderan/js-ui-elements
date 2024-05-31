@@ -143,3 +143,4 @@ export class CheckBoxList extends HTMLElement {
         this.checkboxes[name] = checkbox;
     }
 }
+customElements.define('checkbox-list', CheckBoxList);
