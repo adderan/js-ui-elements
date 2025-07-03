@@ -25,21 +25,22 @@ export class CheckBoxList extends HTMLElement {
 
         this.checkboxes = {};
 
-        this.style.display = 'inline-block';
 
         const style = document.createElement('style');
         style.innerHTML = `
+        checkbox-list {
+            display: inline-block;
             .anchor {
-                position: relative;
                 cursor: pointer;
+                position: relative;
                 display: inline-block;
                 padding: 5px 50px 5px 10px;
                 border: 1px solid #ccc;
             }
 
             .anchor:after {
-                position: absolute;
                 content: "";
+                position: absolute;
                 border-left: 2px solid black;
                 border-top: 2px solid black;
                 padding: 5px;
@@ -56,14 +57,16 @@ export class CheckBoxList extends HTMLElement {
                 right: 8px;
                 top: 21%;
             }
+            ul {
+                display: none;
+                position: absolute;
+            }
 
             ul.items {
                 padding: 2px;
-                display: none;
                 margin: 0;
                 border: 1px solid #ccc;
                 border-top: none;
-                position: fixed;
                 background-color: white;
             }
 
@@ -73,28 +76,36 @@ export class CheckBoxList extends HTMLElement {
             ul.items li span {
                 margin-left: 4px;
             }
+        }
+        checkbox-list[visible="true"] {
 
-            .visible .anchor {
+            .anchor {
                 color: #0094ff;
             }
 
-            .visible .items {
+            ul {
                 display: block;
             }
+        }
         `;
 
         this.appendChild(style);
+
+    }
+    clear() {
+        this.list.replaceChildren();
+        this.checkboxes = {};
 
     }
 
 
     toggle_visible() {
         if (this.visible) {
-            this.classList.remove('visible');
+            this.setAttribute('visible', false);
             this.visible = false;
         }
         else {
-            this.classList.add('visible');
+            this.setAttribute("visible", true);
             this.visible = true;
         }
     }
