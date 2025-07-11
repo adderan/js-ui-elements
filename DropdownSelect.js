@@ -21,6 +21,7 @@ export class DropdownSelect extends HTMLElement {
         document.addEventListener('click', this);
 
         this.visible = false;
+        this.setAttribute("visible", false);
 
         this.items = {};
         this.selected_item = null;
@@ -28,7 +29,6 @@ export class DropdownSelect extends HTMLElement {
         this.selected_color = 'cyan';
         this.normal_color = 'white';
 
-        this.style.display = 'inline-block';
 
         this.new_item_button = document.createElement('li');
         const new_item_label = document.createElement('span');
@@ -38,6 +38,8 @@ export class DropdownSelect extends HTMLElement {
 
         const style = document.createElement('style');
         style.innerHTML = `
+        dropdown-select {
+            display: inline-block;
             .anchor {
                 position: relative;
                 cursor: pointer;
@@ -66,14 +68,17 @@ export class DropdownSelect extends HTMLElement {
                 top: 21%;
             }
 
+            ul {
+                display: none;
+                position: absolute;
+            }
+
             ul.items {
                 z-index: 1;
                 padding: 2px;
-                display: none;
                 margin: 0;
                 border: 1px solid #ccc;
                 border-top: none;
-                position: fixed;
                 background-color: white;
             }
 
@@ -83,14 +88,17 @@ export class DropdownSelect extends HTMLElement {
             ul.items li span {
                 margin-left: 4px;
             }
+        }
+        dropdown-select[visible="true"] {
 
-            .visible .anchor {
+            .anchor {
                 color: #0094ff;
             }
 
-            .visible .items {
+            .items {
                 display: block;
             }
+        }
         `;
 
         this.appendChild(style);
@@ -107,13 +115,25 @@ export class DropdownSelect extends HTMLElement {
 
     toggleVisible() {
         if (this.visible) {
-            this.classList.remove('visible');
+            this.setAttribute("visible", false);
             this.visible = false;
         }
         else {
-            this.classList.add('visible');
+            this.setAttribute("visible", true);
             this.visible = true;
         }
+    }
+    getSelectedIndex() {
+        let index = 0;
+        console.log("Selected item:", this.selected_item);
+        for (let item_name of Object.keys(this.items)) {
+            console.log(item_name);
+            if (item_name == this.selected_item) {
+                return index;
+            }
+            index++;
+        }
+        return null;
     }
     handleEvent(evt) {
         if (evt.type == "click") {
