@@ -119,6 +119,13 @@ export class CheckBoxList extends HTMLElement {
     item_selected(name) {
         return (name in this.checkboxes && this.checkboxes[name].checked);
     }
+    get_changed_item(event) {
+        const list_item = event.target.parentElement;
+        const item_name = list_item.getAttribute("item_name");
+        const new_value = this.checkboxes[item_name].checked;
+        return [item_name, new_value];
+
+    }
     handleEvent(evt) {
         if (evt.type == "click") {
             if (evt.target == this.anchor) {
@@ -149,6 +156,7 @@ export class CheckBoxList extends HTMLElement {
         label.innerHTML = name;
         list_item.appendChild(checkbox);
         list_item.appendChild(label);
+        list_item.setAttribute("item_name", name);
 
         this.list.appendChild(list_item);
         this.checkboxes[name] = checkbox;

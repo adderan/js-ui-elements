@@ -37,7 +37,7 @@ export class DropdownSelect extends HTMLElement {
         this.list.appendChild(this.new_item_button);
 
         const style = document.createElement('style');
-        style.innerHTML = `
+        style.innerHTML += `
         dropdown-select {
             display: inline-block;
             .anchor {
@@ -46,6 +46,12 @@ export class DropdownSelect extends HTMLElement {
                 display: inline-block;
                 padding: 5px 50px 5px 10px;
                 border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: beige;
+                overflow: clip;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                max-width: 70%;
             }
 
             .anchor:after {
@@ -61,6 +67,7 @@ export class DropdownSelect extends HTMLElement {
                 -o-transform: rotate(-135deg);
                 -webkit-transform: rotate(-135deg);
                 transform: rotate(-135deg);
+                max-width: 30%;
             }
 
             .anchor:active:after {
